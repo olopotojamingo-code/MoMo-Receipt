@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>National Bank of Canada · Transfer Confirmed</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sb-primary:   #E31837;
+    --sb-royal:     #B3122B;
+    --sb-navy:      #1A1A1A;
+    --sb-gold:      #FFFFFF;
+    --sb-white:     #FFFFFF;
+    --sb-text:      #1A2233;
+    --sb-muted:     #5B6577;
+    --sb-border:    #E5E5E5;
+    --sb-soft:      #F7F7F7;
+    --sb-page:      #F5F5F5;
+    --sb-green:     #0E7A4A;
+    --sb-green-soft:#E8F5EE;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--sb-page); color: var(--sb-text);
+    -webkit-font-smoothing: antialiased; line-height: 1.5;
+    min-height: 100vh; display: flex; justify-content: center; padding: 0;
+  }
+  .phone {
+    width: 100%; max-width: 430px; min-height: 100vh;
+    background: var(--sb-white); display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+  }
+
+  .top {
+    position: relative; flex-shrink: 0;
+    background: linear-gradient(160deg, var(--sb-primary) 0%, var(--sb-royal) 100%);
+    padding: 20px 22px 26px;
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+  }
+  .top::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: rgba(255,255,255,0.85);
+    border-top-left-radius: 20px; border-top-right-radius: 20px;
+  }
+  .brand-row { display: flex; align-items: center; gap: 10px; }
+  .top-logo { height: 34px; width: auto; display: block; flex-shrink: 0; }
+  .brand-text {
+    font-size: 22px; font-weight: 800; letter-spacing: -0.5px;
+    color: #fff; line-height: 1; white-space: nowrap;
+  }
+  .brand-text .dot { color: var(--sb-white); }
+
+  .page-title {
+    margin-top: 18px; font-size: 19px; font-weight: 800;
+    color: #fff; letter-spacing: -0.3px; line-height: 1.25;
+  }
+  .page-sub {
+    margin-top: 6px; font-size: 12.5px; color: rgba(255,255,255,0.80);
+    line-height: 1.55; max-width: 320px;
+  }
+
+  .body {
+    flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch;
+    padding: 24px 20px 22px;
+    display: flex; flex-direction: column;
+  }
+
+  .hero-icon {
+    width: 76px; height: 76px; border-radius: 50%;
+    background: var(--sb-green-soft);
+    border: 3px solid var(--sb-green);
+    display: inline-flex; align-items: center; justify-content: center;
+    margin: 0 auto 18px;
+    box-shadow: 0 0 0 6px rgba(14,122,74,0.10),
+                0 10px 22px rgba(14,122,74,0.18);
+    animation: popIn .5s cubic-bezier(.4, 1.4, .6, 1);
+  }
+  .hero-icon svg {
+    width: 40px; height: 40px;
+    stroke: var(--sb-green); fill: none;
+    stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round;
+    stroke-dasharray: 60; stroke-dashoffset: 60;
+    animation: drawCheck .55s ease-out .15s forwards;
+  }
+  @keyframes popIn {
+    0%   { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1);   opacity: 1; }
+  }
+  @keyframes drawCheck { to { stroke-dashoffset: 0; } }
+
+  .status-title {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.3px;
+    color: var(--sb-navy); text-align: center;
+    line-height: 1.3; margin-bottom: 8px;
+  }
+  .status-desc {
+    font-size: 13px; color: var(--sb-muted); line-height: 1.6;
+    text-align: center; max-width: 330px; margin: 0 auto 20px;
+  }
+
+  .amount-card {
+    background: var(--sb-soft); border-radius: 12px;
+    border: 1px solid var(--sb-border);
+    padding: 18px 20px; margin-bottom: 18px;
+    display: flex; flex-direction: column; gap: 4px;
+    text-align: center;
+  }
+  .amount-card .label {
+    font-size: 10.5px; color: var(--sb-muted); font-weight: 700;
+    letter-spacing: 0.7px; text-transform: uppercase;
+  }
+  .amount-card .amount {
+    font-size: 30px; font-weight: 800; color: var(--sb-primary);
+    letter-spacing: -0.6px; line-height: 1.2;
+    word-break: break-word;
+  }
+
+  .detail-list {
+    background: var(--sb-soft);
+    border: 1px solid var(--sb-border);
+    border-radius: 12px;
+    padding: 4px 16px;
+    margin-bottom: 22px;
+  }
+  .detail-row {
+    display: flex; justify-content: space-between; align-items: flex-start;
+    padding: 12px 0; border-bottom: 1px solid #EDEDED;
+    font-size: 12.5px; gap: 12px;
+  }
+  .detail-row:last-child { border-bottom: none; }
+  .detail-row .k { color: var(--sb-muted); flex-shrink: 0; font-weight: 500; }
+  .detail-row .v {
+    font-weight: 700; text-align: right;
+    word-break: break-word; color: var(--sb-text);
+  }
+  .detail-row .v.status-ok { color: var(--sb-green); font-weight: 800; }
+
+  .sb-footer {
+    width: 100%; margin-top: 4px;
+    background: var(--sb-navy);
+    border-radius: 12px;
+    padding: 16px 18px;
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 12px; text-align: left;
+  }
+  .foot-brand {
+    display: flex; align-items: center; gap: 8px;
+    min-width: 0;
+  }
+  .sb-footer .foot-logo {
+    height: 26px; width: auto; display: block; flex-shrink: 0;
+  }
+  .sb-footer .foot-brand-text {
+    font-size: 16px; font-weight: 800; letter-spacing: -0.3px;
+    color: #fff; line-height: 1; white-space: nowrap;
+  }
+  .sb-footer .foot-brand-text .dot { color: var(--sb-primary); }
+  .sb-footer .foot-support {
+    font-size: 10.5px; color: rgba(255,255,255,0.72); line-height: 1.5; font-weight: 500;
+    text-align: right;
+  }
+  .sb-footer .foot-support strong {
+    color: var(--sb-primary); font-weight: 700; font-size: 11.5px;
+  }
+
+  .close-btn {
+    width: 100%; margin-top: 18px; min-height: 64px;
+    background: var(--sb-primary); color: #fff;
+    border: none; border-radius: 12px;
+    font-family: inherit; font-size: 17px; font-weight: 800;
+    letter-spacing: 0.4px; cursor: pointer;
+    box-shadow: 0 10px 24px rgba(227,24,55,0.28);
+    transition: filter .15s, transform .1s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 24px;
+  }
+  .close-btn:hover { filter: brightness(1.08); }
+  .close-btn:active { transform: scale(0.985); }
+
+  @media (max-width: 380px) {
+    .top { padding: 16px 18px 22px; }
+    .body { padding: 20px 18px 18px; }
+    .top-logo { height: 30px; }
+    .brand-text { font-size: 20px; }
+    .page-title { font-size: 17px; }
+    .hero-icon { width: 64px; height: 64px; }
+    .hero-icon svg { width: 34px; height: 34px; }
+    .status-title { font-size: 18px; }
+    .amount-card .amount { font-size: 26px; }
+    .close-btn { min-height: 60px; font-size: 16px; }
+    .sb-footer { padding: 14px 16px; }
+    .sb-footer .foot-logo { height: 22px; }
+    .sb-footer .foot-brand-text { font-size: 14px; }
+  }
+  @media (min-width: 640px) {
+    body { padding: 32px 0; align-items: center; }
+    .phone {
+      min-height: calc(100vh - 64px); max-height: 900px;
+      border-radius: 20px;
+      box-shadow: 0 30px 80px rgba(227,24,55,0.18);
+      overflow: hidden;
+    }
+  }
+  @media print {
+    body { background: #fff; padding: 0; }
+    .close-btn, .sb-footer { display: none !important; }
+    .phone { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="top">
+    <div class="brand-row">
+      <img
+        class="top-logo"
+        src="https://thumb.wikimedia.org/wikipedia/fr/thumb/7/79/Banque_nationale_du_Canada_%28logo%29.svg/330px-Banque_nationale_du_Canada_%28logo%29.svg.png?utm_source=fr.wikipedia.org&utm_campaign=index&utm_content=thumbnail&_=20251205193023"
+        alt="National Bank of Canada"
+        referrerpolicy="no-referrer"
+        onerror="this.style.display='none'"
+      >
+      <span class="brand-text">National Bank<span class="dot">.</span></span>
+    </div>
+    <div class="page-title" id="pageTitle">Transfer confirmed</div>
+    <div class="page-sub" id="pageSub">Your incoming transfer has been confirmed successfully.</div>
+  </div>
+
+  <div class="body">
+
+    <div class="hero-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24"><polyline points="5 12 10 17 19 7"/></svg>
+    </div>
+
+    <div class="status-title" id="statusTitle">Transfer confirmed</div>
+    <div class="status-desc" id="statusDesc">
+      Your incoming transfer has been confirmed and the funds are now in your account.
+    </div>
+
+    <div class="amount-card">
+      <span class="label" id="amountLabel">Amount received</span>
+      <span class="amount" id="amountValue">—</span>
+    </div>
+
+    <div class="detail-list">
+      <div class="detail-row"><span class="k" id="kFrom">From</span><span class="v" id="fromName">—</span></div>
+      <div class="detail-row"><span class="k" id="kRecipient">Recipient</span><span class="v" id="recipientName">—</span></div>
+      <div class="detail-row"><span class="k" id="kReference">Reference</span><span class="v" id="txId">—</span></div>
+      <div class="detail-row"><span class="k" id="kPurpose">Purpose</span><span class="v" id="purposeLabel">—</span></div>
+      <div class="detail-row"><span class="k" id="kCountry">Country</span><span class="v" id="countryLabel">—</span></div>
+      <div class="detail-row"><span class="k" id="kDate">Date</span><span class="v" id="dateLabel">—</span></div>
+      <div class="detail-row"><span class="k" id="kStatus">Status</span><span class="v status-ok" id="statusLabel">Confirmed</span></div>
+    </div>
+
+    <div class="sb-footer">
+      <div class="foot-brand">
+        <img
+          class="foot-logo"
+          src="https://thumb.wikimedia.org/wikipedia/fr/thumb/7/79/Banque_nationale_du_Canada_%28logo%29.svg/330px-Banque_nationale_du_Canada_%28logo%29.svg.png?utm_source=fr.wikipedia.org&utm_campaign=index&utm_content=thumbnail&_=20251205193023"
+          alt="National Bank of Canada"
+          referrerpolicy="no-referrer"
+          onerror="this.style.display='none'"
+        >
+        <span class="foot-brand-text">National Bank<span class="dot">.</span></span>
+      </div>
+      <div class="foot-support">
+        <span id="needHelpLabel">Customer Care</span><br>
+        <span id="callLabel">Call</span> <strong id="supportNum">—</strong>
+      </div>
+    </div>
+
+    <button class="close-btn" onclick="closePage()" id="closeBtn">Close</button>
+
+  </div>
+</div>
+
+<script>
+  const I18N = {
+    en: {
+      docTitle: 'National Bank of Canada · Transfer Confirmed',
+      pageTitle: 'Transfer confirmed',
+      pageSub: 'Your incoming transfer has been confirmed successfully.',
+      statusTitle: 'Transfer confirmed',
+      statusDesc: 'Your incoming transfer has been confirmed and the funds are now in your account.',
+      amountLabel: 'Amount received',
+      kFrom: 'From',
+      kRecipient: 'Recipient',
+      kReference: 'Reference',
+      kPurpose: 'Purpose',
+      kCountry: 'Country',
+      kDate: 'Date',
+      kStatus: 'Status',
+      statusLabel: 'Confirmed',
+      needHelp: 'Customer Care',
+      callLabel: 'Call',
+      close: 'Close',
+      fromFallback: 'National Bank of Canada'
+    },
+    fr: {
+      docTitle: 'Banque Nationale du Canada · Virement confirmé',
+      pageTitle: 'Virement confirmé',
+      pageSub: 'Votre virement entrant a été confirmé avec succès.',
+      statusTitle: 'Virement confirmé',
+      statusDesc: 'Votre virement entrant a été confirmé et les fonds sont maintenant sur votre compte.',
+      amountLabel: 'Montant reçu',
+      kFrom: 'De',
+      kRecipient: 'Destinataire',
+      kReference: 'Référence',
+      kPurpose: 'Motif',
+      kCountry: 'Pays',
+      kDate: 'Date',
+      kStatus: 'Statut',
+      statusLabel: 'Confirmé',
+      needHelp: 'Service Client',
+      callLabel: 'Appelez le',
+      close: 'Fermer',
+      fromFallback: 'Banque Nationale du Canada'
+    }
+  };
+
+  const urlParams = new URLSearchParams(location.search);
+  const urlLang = (urlParams.get('lang') || '').toLowerCase();
+  const currentLang = I18N[urlLang] ? urlLang : 'en';
+  const T = I18N[currentLang];
+
+  const SUPPORT_NUMBERS = {
+    'Cameroon': '233 42 12 12',
+    'Zambia': '111',
+    'Zambia (MTN)': '111',
+    'Uganda': '100',
+    'Uganda (MTN)': '100',
+    'Ghana': '100',
+    'Ghana (MTN)': '100',
+    'Benin': '111',
+    'Botswana': '399 9100'
+  };
+
+  const CURRENCY_LOCALE = {
+    XAF: 'fr-CM',
+    ZMW: 'en-ZM',
+    UGX: 'en-UG',
+    GHS: 'en-GH',
+    XOF: 'fr-BJ',
+    BWP: 'en-BW',
+    USD: 'en-US',
+    CAD: 'en-CA'
+  };
+
+  function formatAmount(amount, currency) {
+    const locale = CURRENCY_LOCALE[currency] || 'en-US';
+    const n = Number(amount);
+    if (!isFinite(n)) return '—';
+    try {
+      const parts = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0, maximumFractionDigits: 2
+      }).format(n);
+      const pretty = (currency === 'XAF' || currency === 'XOF' || currency === 'UGX')
+        ? parts.replace(/\u202F|\u00A0|,/g, ' ')
+        : parts;
+      return pretty + ' ' + currency;
+    } catch (e) { return n + ' ' + (currency || ''); }
+  }
+
+  function formatDate(ts) {
+    if (!ts) return '—';
+    const d = new Date(ts);
+    if (isNaN(d.getTime())) return '—';
+    const locale = currentLang === 'fr' ? 'fr-FR' : undefined;
+    return d.toLocaleString(locale, {
+      day: '2-digit', month: 'short', year: 'numeric',
+      hour: '2-digit', minute: '2-digit'
+    });
+  }
+
+  const tx = {
+    ref: urlParams.get('tx') || '',
+    am:  urlParams.get('am') || '',
+    cur: urlParams.get('cur') || '',
+    rn:  urlParams.get('rn') || '',
+    c:   urlParams.get('c') || '',
+    pm:  urlParams.get('pm') || '',
+    sn:  urlParams.get('sn') || '',
+    mk:  urlParams.get('mk') || '',
+    an:  urlParams.get('an') || '',
+    dt:  urlParams.get('dt') || '',
+    pu:  urlParams.get('pu') || ''
+  };
+
+  function applyTranslations() {
+    document.title = T.docTitle;
+    document.getElementById('pageTitle').textContent = T.pageTitle;
+    document.getElementById('pageSub').textContent = T.pageSub;
+    document.getElementById('statusTitle').textContent = T.statusTitle;
+    document.getElementById('statusDesc').textContent = T.statusDesc;
+    document.getElementById('amountLabel').textContent = T.amountLabel;
+    document.getElementById('kFrom').textContent = T.kFrom;
+    document.getElementById('kRecipient').textContent = T.kRecipient;
+    document.getElementById('kReference').textContent = T.kReference;
+    document.getElementById('kPurpose').textContent = T.kPurpose;
+    document.getElementById('kCountry').textContent = T.kCountry;
+    document.getElementById('kDate').textContent = T.kDate;
+    document.getElementById('kStatus').textContent = T.kStatus;
+    document.getElementById('statusLabel').textContent = T.statusLabel;
+    document.getElementById('needHelpLabel').textContent = T.needHelp;
+    document.getElementById('callLabel').textContent = T.callLabel;
+    document.getElementById('closeBtn').textContent = T.close;
+  }
+
+  function populate() {
+    applyTranslations();
+
+    document.getElementById('fromName').textContent = tx.mk || T.fromFallback;
+    document.getElementById('recipientName').textContent = tx.rn || '—';
+    document.getElementById('txId').textContent = tx.ref || '—';
+    document.getElementById('purposeLabel').textContent = tx.pu || '—';
+    document.getElementById('countryLabel').textContent = tx.c || '—';
+    document.getElementById('dateLabel').textContent = formatDate(tx.dt || Date.now());
+    document.getElementById('amountValue').textContent =
+      tx.am ? formatAmount(tx.am, tx.cur) : '—';
+    document.getElementById('supportNum').textContent =
+      SUPPORT_NUMBERS[tx.c] || '—';
+  }
+
+  function closePage() {
+    if (tx.ref) {
+      try {
+        const base = new URL('index.html', window.location.href);
+        base.search = '?r=' + encodeURIComponent(tx.ref) + '&lang=' + encodeURIComponent(currentLang);
+        base.hash = '';
+        window.location.href = base.toString();
+        return;
+      } catch (e) {}
+    }
+    if (history.length > 1) {
+      history.back();
+    } else {
+      window.location.href = 'index.html';
+    }
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closePage();
+  });
+
+  document.addEventListener('DOMContentLoaded', populate);
+</script>
+</body>
+</html>
